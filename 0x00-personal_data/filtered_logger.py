@@ -56,25 +56,20 @@ class RedactingFormatter(logging.Formatter):
 
 def get_db() -> None:
     """Connects to MySQL db using environment variables"""
-    user = os.environ.get('PERSONAL_DATA_DB_USERNAME')
-    password = os.environ.get('PERSONAL_DATA_DB_PASSWORD')
-    db_host = os.environ.get('PERSONAL_DATA_DB_HOST')
-    db_name = os.environ.get('PERSONAL_DATA_DB_NAME')
+    user = os.getenv('PERSONAL_DATA_DB_USERNAME')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD')
+    db_host = os.getenv('PERSONAL_DATA_DB_HOST')
+    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
 
-    # Connect to the database or perform any necessary operations
-    # using the retrieved environment variables.
-    # Replace this code with your actual implementation.
-    db_connection = None
-    if user and password and db_host and db_name:
-        db_connection = create_db_connection(user, password, db_host, db_name)
+    if not all([user, password, db_host, db_name]):
+        raise ValueError("Incomplete or missing environment variables for database connection.")
 
-    return db_connection
+    return create_db_connection(user, password, db_host, db_name)
 
 
 def create_db_connection(user: str, password: str, host: str, database: str):
     """Creates a database connection"""
     # Replace this code with your actual implementation.
-    # This is just a placeholder function.
     print(f"Creating database connection for user={user}, "
           f"host={host}, database={database}")
     return None
